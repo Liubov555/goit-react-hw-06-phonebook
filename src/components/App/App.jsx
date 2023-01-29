@@ -3,7 +3,7 @@ import React from "react";
 import { Section } from "./App.styles";
 import ContactForm from '../ContactForm/ContactForm';
 import ContactList from "../ContactList/ContactList";
-import { Filter } from "../Filter/Filter";
+import Filter from "../Filter/Filter";
 
 
 export default function App() {

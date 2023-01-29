@@ -1,27 +1,49 @@
 import PropTypes from "prop-types";
 import { List, Item, Text, Button } from "./ContactList.style";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteContact } from "redux/contacts-slice";
+import { getContacts, getFilter } from "redux/contacts-slice";
 
-const ContactList = ({ items, deleteContact }) => {
-    const elements = items.map(({ name, number, id }) => {
-        return (
-            <Item key={id}>
-                <Text> {name}: {number} </Text>
-                <Button type="button" onClick={() => deleteContact(id)}>Delete</Button>
-            </Item>
+export default function ContactList() {
+    const dispatch = useDispatch();
+    const contacts = useSelector(getContacts);
+    const filtered = useSelector(getFilter);
+
+    const findContacts = () => {
+        const normalizedFilter = filtered.toLowerCase();
+        return contacts.filter((contacts) =>
+            contacts.name.toLowerCase().includes(normalizedFilter)
         );
-    })
+    };
 
-    return (<List>{elements}</List>);
-};
+    const filteredContacts = findContacts();
 
-export default ContactList;
+    return (
+        <List>
+            {filteredContacts.map(
+                ({
+                    id,
+                    name,
+                    number
+                }) => {
+                    return (
+                        <Item key={id}>
+                            <Text> {name}: {number} </Text>
+                            <Button type="button" onClick={() => dispatch(deleteContact(id))}>Delete</Button>
+                        </Item>
+                    );
+                }
+            )}
+        </List>
+    );
+}
 
 ContactList.prototypes = {
-    items: PropTypes.arrayOf(
+    contacts: PropTypes.arrayOf(
         PropTypes.exact({
             id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
-            number: PropTypes.number.isRequired,
+            number: PropTypes.string.isRequired,
         })),
     deleteContact: PropTypes.func.isRequired,
 }
