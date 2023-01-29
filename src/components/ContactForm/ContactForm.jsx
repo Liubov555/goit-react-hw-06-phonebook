@@ -49,7 +49,7 @@ export default function ContactForm() {
         );
 
         checkContact ?
-            alert(`&{name} is already in contacts`)
+            alert(`${name} is already in contacts`)
             : dispatch(addContact(contact));
 
         resetSubmit();
