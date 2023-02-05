@@ -6,7 +6,7 @@ export default function Filter() {
     const dispatch = useDispatch();
     const filter = useSelector(getFilter);
     const onChange = evt => {
-        dispatch(setFilter(evt.current.value));
+        dispatch(setFilter(evt.target.value));
     };
 
     return (
